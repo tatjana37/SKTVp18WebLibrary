@@ -1,6 +1,6 @@
 <%-- 
-    Document   : page3
-    Created on : 31.10.2019, 18:08:31
+    Document   : page4
+    Created on : 31.10.2019, 18:31:37
     Author     : lenovo
 --%>
 
@@ -9,10 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Page3</title>
+        <title>JSP Page</title>
     </head>
     <body>
-    <div>Я страница Page 3</div>
+        <h1>Привет от Page4</h1>
         ${info}<br>
         ${page}
         

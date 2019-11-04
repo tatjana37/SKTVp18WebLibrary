@@ -1,6 +1,6 @@
 <%-- 
-    Document   : page4
-    Created on : 31.10.2019, 18:31:37
+    Document   : page2
+    Created on : 04.11.2019, 18:38:04
     Author     : lenovo
 --%>
 
@@ -12,6 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Привет от Page4</h1>
+        <h1>Privet Page2</h1>
+        ${info}<br>
+        ${page}
     </body>
 </html>
