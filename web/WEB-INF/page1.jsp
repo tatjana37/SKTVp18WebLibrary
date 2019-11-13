@@ -9,13 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Page1</title>
     </head>
     <body>
         <h1>Privet Page1</h1>
-        ${info}<br>
-        ${page}
-        
-        
+        ${info}
+        <form action="login" method="POST">
+            Login: <input type="text" name="login"><br>
+            Password: <input type="password" name="password"><br>
+            <input type="submit" value="Go">
+        </form>
     </body>
 </html>

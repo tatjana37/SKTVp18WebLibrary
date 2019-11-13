@@ -13,7 +13,8 @@
     </head>
     <body>
         <h1>Privet Page2</h1>
-        ${info}<br>
+        ${info}
+        <br>
         ${page}
     </body>
 </html>

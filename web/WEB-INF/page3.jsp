@@ -12,9 +12,7 @@
         <title>Page3</title>
     </head>
     <body>
-    <div>Я страница Page 3</div>
-        ${info}<br>
-        ${page}
-        
+    <h1>Я страница Page 3</h1>
+        ${info}
     </body>
 </html>
