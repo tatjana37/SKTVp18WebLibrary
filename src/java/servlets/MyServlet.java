@@ -6,6 +6,7 @@
 package servlets;
 
 import entity.Book;
+import entity.Reader;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.BookFacade;
+import session.ReaderFacade;
 /**
  *
  * @author lenovo
@@ -25,14 +27,17 @@ import session.BookFacade;
     "/page3",
     "/page4",
     "/hello",
-    "/createBook",
-    
+    "/newBook",
+    "/addBook",
+    "/newReader",
+    "/addReader",
     
     
     
 })
 public class MyServlet extends HttpServlet {
     @EJB BookFacade bookFacade;
+    @EJB ReaderFacade readerFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,17 +51,41 @@ public class MyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String path = request.getServletPath();
         
         switch (path) {
-            case "/createBook":
-                Book book = new Book("Война и мир", "Лев Толстой", 2010, 5);
-                bookFacade.create(book);
-                 request.setAttribute("info", "Книга создана");
-                 request.getRequestDispatcher("/index.jsp")
+            case "/newBook":
+                 request.getRequestDispatcher("/WEB-INF/newBook.jsp")
                         .forward(request, response);
-                           
                  break;
+            case "/addBook":
+                String title = request.getParameter("title");
+                String author = request.getParameter("author");
+                String year = request.getParameter("year");
+                String quentity = request.getParameter("quentity");
+                Book book = new Book (title, author, Integer.parseInt(year), Integer.parseInt(quentity));
+                bookFacade.create(book);
+                request.setAttribute("info", "Книга создана");
+                request.getRequestDispatcher("/WEB-INF/newBook.jsp")
+                        .forward(request, response);
+                break;
+                
+            case "/newReader":
+                request.getRequestDispatcher("/WEB-INF/newReader.jsp")
+                        .forward(request, response);
+                break;
+                
+            case "/addReader":
+                String name = request.getParameter("name");
+                String lastname = request.getParameter("lastname");
+                String email = request.getParameter("email");
+                Reader reader = new Reader (name, lastname, email);
+                readerFacade.create(reader);
+                request.setAttribute("info", "Читатель добавлен в базу данных");
+                request.getRequestDispatcher("/index.jsp")
+                        .forward(request, response);
+                break;
                  
             case "/login":
                 String login = request.getParameter("login");
@@ -74,15 +103,7 @@ public class MyServlet extends HttpServlet {
                 request.setAttribute(info, "info");
                 request.getRequestDispatcher("/WEB-INF/page1.jsp").forward(request, response);
                 break;
-            case "/page2":
-                String name = request.getParameter("name");
-
-                String lastname = request.getParameter("lastname");
-                info = "Привет из сервлета";
-                request.setAttribute("info", info);
-                request.setAttribute("page", name + " " + lastname);
-                request.getRequestDispatcher("/WEB-INF/page2.jsp").forward(request, response);
-                break;
+            
             case "/page3":
                 info = "Привет из сервлета";
                 request.setAttribute(info, "info");
