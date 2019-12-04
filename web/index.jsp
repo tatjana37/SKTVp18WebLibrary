@@ -9,19 +9,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Библеотека SKTVp18WebLibrary</title>
     </head>
     <body>
-        <h1>Привет, группа SKTVp18</h1>
-        ${info}<br>
-        <p>создана книга: ${book.title}</p>
-        <p>Изучаем как работает приложение</p>
-        <a href="page1">Page1</a><br>
-        <a href="page2?name=Ivan&lastname=Ivanov">Page2</a><br>
-        <a href="page3">Page3</a><br>
-        <a href="page4">Page4</a><br>
+        <h1>Добро пожаловать в библиотеку SKTVp18WebLibrary </h1>
+        <p>${info}<br>
+        <a href="showLogin">Вход</a><br>
         <a href="newBook">Создать книгу</a><br>
-        <a href="newReader">Создать читателя</a>
-       
+        <a href="newReader">Создать читателя</a><br>
+        <a href="listBooks">Список книг</a><br>
+        <a href="listReaders">Список читателей</a><br>
+        <a href="showTakeOnBook">Выдать книгу читателю</a><br>
+        <a href="showReturnBook">Вернуть книгу читателю</a><br>
+        
     </body>
 </html>

@@ -37,6 +37,7 @@ public class History implements Serializable{
 
     public History() {
     }
+
     
     public Book getBook() {
         return book;

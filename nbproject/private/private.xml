@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/web/WEB-INF/newBook.jsp</file>
+            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/src/java/entity/History.java</file>
             <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/src/java/servlets/MyServlet.java</file>
-            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/src/java/session/BookFacade.java</file>
-            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/web/index.jsp</file>
-            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/web/WEB-INF/glassfish-resources.xml</file>
-            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/src/conf/MANIFEST.MF</file>
+            <file>file:/C:/Users/lenovo/Documents/NetBeansProjects/Library/SKTVp18WebLibrary/src/java/showTakeOnBook.jsp</file>
         </group>
     </open-files>
 </project-private>
