@@ -13,6 +13,8 @@
     </head>
     <body>
         <h1>Создать книгу</h1>
+        <a href="index.jsp">Главна страница</a><br>
+        <br>
         <form action="addBook" method="POST">
             Название книги:<br>
             <input type="text" size="40" name="title"><br>

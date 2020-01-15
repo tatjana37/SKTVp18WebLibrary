@@ -8,6 +8,7 @@ package servlets;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import entity.User;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +18,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import session.BookFacade;
 import session.HistoryFacade;
 import session.ReaderFacade;
+import session.UserFacade;
 /**
  *
  * @author lenovo
@@ -45,6 +48,7 @@ public class MyServlet extends HttpServlet {
     @EJB BookFacade bookFacade;
     @EJB ReaderFacade readerFacade;
     @EJB HistoryFacade historyFacade;
+    @EJB UserFacade userFacade;
     
 
     /**
@@ -61,7 +65,6 @@ public class MyServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         String path = request.getServletPath();
-        
         switch (path) {
             case "/newBook":
                  request.getRequestDispatcher("/WEB-INF/newBook.jsp")
@@ -84,16 +87,46 @@ public class MyServlet extends HttpServlet {
                         .forward(request, response);
                 break;
                 
-            case "/addReader":
+           case "/addReader":
                 String name = request.getParameter("name");
                 String lastname = request.getParameter("lastname");
                 String email = request.getParameter("email");
-                Reader reader = new Reader (name, lastname, email);
-                readerFacade.create(reader);
-                request.setAttribute("info", "Читатель добавлен в базу данных");
+                String login = request.getParameter("login");
+                String password = request.getParameter("password");
+                if(name == null || lastname == null
+                        || email == null || login == null
+                        || password == null){
+                    request.setAttribute("info", "Заполните все поля!");
+                    request.setAttribute("lastname",lastname);
+                    request.setAttribute("email",email);
+                    request.setAttribute("login",login);
+                    request.getRequestDispatcher("/newReader")
+                        .forward(request, response);
+                }
+                Reader reader = null;
+                User user = null;
+                try {
+                    reader = new Reader(name, lastname, email);
+                    readerFacade.create(reader);
+                    user = new User(login, password, "", reader);
+                    userFacade.create(user);
+                } catch (Exception e) {
+                    if(reader != null){
+                        readerFacade.remove(reader);
+                    }
+                    if(user != null){
+                        userFacade.remove(user);
+                    }
+                    request.setAttribute("info", "Пользователя создать не удалось");
+                    request.getRequestDispatcher("/newReader")
+                        .forward(request, response);
+                }
+                
+                request.setAttribute("info", "Пользователь создан");
                 request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
+                   
             case "/listBooks":
                 List<Book> listBooks = bookFacade.findAll();
                 request.setAttribute("listBooks", listBooks);
@@ -166,17 +199,34 @@ public class MyServlet extends HttpServlet {
                         .forward(request, response);
                 break;
             case "/login":
-                String login = request.getParameter("login");
-                String password = request.getParameter("password");
-                if("Tatjana".equals(login) && "Oborina".equals(password)){
-                    request.setAttribute("info", "Привет, "+login+"!");
-                }else{
+                login = request.getParameter("login");
+                password = request.getParameter("password");
+                if(login == null || password == null) {
                     request.setAttribute("info", "Неправильный логин или пароль!");
+                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+                        .forward(request, response);
+                    break;
                 }
+                user = userFacade.findByLogin(login);
+                if( user == null) {
+                    request.setAttribute("info", "Неправильный логин или пароль!");
+                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+                        .forward(request, response);
+                    break;
+                }
+                if(!password.equals(user.getPassvord())) {
+                    request.setAttribute("info", "Неправильный логин или пароль!");
+                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+                        .forward(request, response);
+                    break;
+                }
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
+                request.setAttribute("info", "Привет, "+login+"!");
                 request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
-      
+             
             
         }
     }

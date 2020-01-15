@@ -10,6 +10,8 @@
         <title>Список читателей</title>
     </head>
     <body>
+        <a href="index.jsp">Главна страница</a><br>
+        <br>
         <h1>Список читателей нашей библиотеки:</h1>
         <ol>
         <c:forEach var="reader" items="${listReaders}">

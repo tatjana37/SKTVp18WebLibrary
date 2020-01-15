@@ -10,6 +10,8 @@
         <title>Список книг в библиотеке</title>
     </head>
     <body>
+        <a href="index.jsp">Главна страница</a><br>
+        <br>
         <h1>В нашей библиотеке имеются следующие книги:</h1>
         <ol>
            <c:forEach var="book" items="${listBooks}">

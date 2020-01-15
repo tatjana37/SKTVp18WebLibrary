@@ -4,12 +4,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Библеотека SKTVp18WebLibrary</title>
     </head>
     <body>
         <h1>Список выданных книг</h1>
         <p>${info}</p>
         <a href="index.jsp">Главна страница</a><br>
+        <br>
         <form action="returnOnBook" method="POST">
             <select name="historyId" size="3">
                 <c:forEach var="history" items="${listHistories}" varStatus="status">

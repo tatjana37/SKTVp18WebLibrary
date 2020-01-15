@@ -13,6 +13,8 @@
     </head>
     <body>
         <p>${info}</p>
+        <a href="index.jsp">Главна страница</a><br>
+        <br>
         <form action="takeOnBook" method="POST">
             <h1>Список книг</h1>
             <select name="bookId">

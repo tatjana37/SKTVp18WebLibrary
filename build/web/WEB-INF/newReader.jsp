@@ -13,6 +13,8 @@
     </head>
     <body>
         <h1>Создать читателя</h1>
+        <a href="index.jsp">Главна страница</a><br>
+        <br>
         <form action="addReader" method="POST">
             Имя:<br>
             <input type="text" size="40" name="name"><br>
@@ -21,7 +23,11 @@
             электронная почта:<br>
             <input type="text" size="40" name="email"><br>
             <br>
-            <input type="submit" value="Добавить читателя"><br>
+            Логин: <input type="text" size="40" name="login"><br>
+            <br>
+            Пароль: <input type="password" size="40" name="password"><br>
+            <br>
+            <input type="submit" value="Создать пользователя"><br>
             
         </form>
     </body>
