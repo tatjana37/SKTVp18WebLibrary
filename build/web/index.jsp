@@ -15,12 +15,18 @@
         <h1>Добро пожаловать в библиотеку SKTVp18WebLibrary </h1>
         <p>${info}<br>
         <a href="showLogin">Вход</a><br>
-        <a href="newBook">Создать книгу</a><br>
-        <a href="newReader">Создать читателя</a><br>
+        <a href="logout">Выход</a><br>
+        <br>
+        доступно пользователю<br>
         <a href="listBooks">Список книг</a><br>
-        <a href="listReaders">Список читателей</a><br>
+        <a href="newReader">Создать читателя</a><br>
+        <br>
+        доступно админу<br>
         <a href="showTakeOnBook">Выдать книгу читателю</a><br>
         <a href="showReturnBook">Вернуть книгу читателю</a><br>
+        <a href="newBook">Создать книгу</a><br>
+        <a href="listReaders">Список читателей</a><br>
+        
         
     </body>
 </html>
