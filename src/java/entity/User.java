@@ -16,24 +16,23 @@ import javax.persistence.Id;
  *
  * @author lenovo
  */ 
-    @Entity
-public class User implements Serializable  {
-    
+ @Entity
+public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Long id;
     private String login;
-    private String passvord;
+    private String password;
     private String salts;
     private Reader reader;
 
     public User() {
     }
 
-    public User(String login, String passvord, String salts, Reader reader) {
+    public User(String login, String password, String salts, Reader reader) {
         this.login = login;
-        this.passvord = passvord;
+        this.password = password;
         this.salts = salts;
         this.reader = reader;
     }
@@ -54,12 +53,12 @@ public class User implements Serializable  {
         this.login = login;
     }
 
-    public String getPassvord() {
-        return passvord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassvord(String passvord) {
-        this.passvord = passvord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSalts() {
@@ -80,12 +79,12 @@ public class User implements Serializable  {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.login);
-        hash = 97 * hash + Objects.hashCode(this.passvord);
-        hash = 97 * hash + Objects.hashCode(this.salts);
-        hash = 97 * hash + Objects.hashCode(this.reader);
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.login);
+        hash = 47 * hash + Objects.hashCode(this.password);
+        hash = 47 * hash + Objects.hashCode(this.salts);
+        hash = 47 * hash + Objects.hashCode(this.reader);
         return hash;
     }
 
@@ -104,7 +103,7 @@ public class User implements Serializable  {
         if (!Objects.equals(this.login, other.login)) {
             return false;
         }
-        if (!Objects.equals(this.passvord, other.passvord)) {
+        if (!Objects.equals(this.password, other.password)) {
             return false;
         }
         if (!Objects.equals(this.salts, other.salts)) {
@@ -124,12 +123,12 @@ public class User implements Serializable  {
         return "User{" 
                 + "id=" + id 
                 + ", login=" + login 
-                + ", passvord=" + passvord 
+                + ", password=" + password 
                 + ", salts=" + salts 
                 + ", reader=" + reader.getName()
-                + "  " + reader.getLastname()
+                + " " + reader.getLastname()
                 + '}';
     }
     
-    
+
 }

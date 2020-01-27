@@ -23,6 +23,7 @@ import session.BookFacade;
 import session.HistoryFacade;
 import session.ReaderFacade;
 import session.UserFacade;
+import utils.EncryptPass;
 /**
  *
  * @author lenovo
@@ -78,7 +79,7 @@ public class MyServlet extends HttpServlet {
                 Book book = new Book (title, author, Integer.parseInt(year), Integer.parseInt(quentity));
                 bookFacade.create(book);
                 request.setAttribute("info", "Книга создана");
-                request.getRequestDispatcher("/WEB-INF/newBook.jsp")
+                request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
                 
@@ -108,7 +109,10 @@ public class MyServlet extends HttpServlet {
                 try {
                     reader = new Reader(name, lastname, email);
                     readerFacade.create(reader);
-                    user = new User(login, password, "", reader);
+                    EncryptPass encryptPass = new EncryptPass();
+                    String salts = encryptPass.getSalts();
+                    password = encryptPass.getEncryptPass(password,salts);
+                    user = new User(login, password, salts, reader);
                     userFacade.create(user);
                 } catch (Exception e) {
                     if(reader != null){
@@ -190,10 +194,6 @@ public class MyServlet extends HttpServlet {
                 request.getRequestDispatcher("/showReturnBook")
                         .forward(request, response);
                 break;
-                
-                
-                
-                
             case "/showLogin":
                 request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
@@ -201,24 +201,27 @@ public class MyServlet extends HttpServlet {
             case "/login":
                 login = request.getParameter("login");
                 password = request.getParameter("password");
-                if(login == null || password == null) {
+                if(login == null || password == null){
                     request.setAttribute("info", "Неправильный логин или пароль!");
                     request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
                     break;
                 }
                 user = userFacade.findByLogin(login);
-                if( user == null) {
+                if(user == null){
                     request.setAttribute("info", "Неправильный логин или пароль!");
                     request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
                     break;
                 }
-                if(!password.equals(user.getPassvord())) {
+                EncryptPass encryptPass = new EncryptPass();
+                password = encryptPass.getEncryptPass(password, user.getSalts());
+                if(!password.equals(user.getSalts())){
                     request.setAttribute("info", "Неправильный логин или пароль!");
                     request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
-                        .forward(request, response);
+                            .forward(request, response);
                     break;
+                } else {
                 }
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
