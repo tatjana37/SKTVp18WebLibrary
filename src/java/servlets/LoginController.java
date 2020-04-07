@@ -92,6 +92,7 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
+                
                 case "/newReader":
                 request.getRequestDispatcher("/WEB-INF/newReader.jsp")
                         .forward(request, response);
