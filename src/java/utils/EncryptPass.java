@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author lenovo
+ * @author user
  */
 public class EncryptPass {
     public String getEncryptPass(String password,String salts){
@@ -47,5 +47,3 @@ public class EncryptPass {
         }
     }
 }
-
-

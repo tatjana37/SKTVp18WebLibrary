@@ -28,69 +28,59 @@ import session.RoleFacade;
 import session.UserFacade;
 import session.UserRolesFacade;
 import utils.EncryptPass;
+
 /**
  *
- * @author lenovo
+ * @author user
  */
-@WebServlet(name = "AdminController", loadOnStartup = 1, urlPatterns = {
-   
-    "/newBook",
-    "/addBook",
+@WebServlet(name = "AdminController",loadOnStartup = 1, urlPatterns = {
+    
     "/listReaders",
+    "/showUserManager",
+    "/changeRole",
     
     
-  
 })
 public class AdminController extends HttpServlet {
-    @EJB BookFacade bookFacade;
-    @EJB ReaderFacade readerFacade;
-    @EJB HistoryFacade historyFacade;
-    @EJB UserFacade userFacade;
-    @EJB RoleFacade roleFacade;
-    @EJB UserRolesFacade userRolesFacade;
+@EJB BookFacade bookFacade;
+@EJB ReaderFacade readerFacade;
+@EJB HistoryFacade historyFacade;
+@EJB UserFacade userFacade;
+@EJB UserRolesFacade userRolesFacade;
+@EJB RoleFacade roleFacade;
 
-    @Override
-    public void init() throws ServletException {
-        List<User> listUsers = userFacade.findAll();
-        if(!listUsers.isEmpty()) return;
-        Reader reader = new Reader("Tatjana", "Oborina", "tatjana.oborina@gmail.com");
-        readerFacade.create(reader);
-               
-        String password = "123123";
-        EncryptPass ep = new EncryptPass();
-        String salts = ep.getSalts();
-        password = ep.getEncryptPass(password, salts);
-        User user = new User("admin", password, salts, reader);
-        userFacade.create(user);
-        
-        UserRoles userRoles = new UserRoles();
-        userRoles.setUser(user);
-        
-        Role role = new Role();
-        role.setRoleName("ADMIN");
-        roleFacade.create(role);
-        userRoles.setRole(role);
-        userRolesFacade.create(userRoles);
-        
-        role.setRoleName("MANAGER");
-        roleFacade.create(role);
-        userRoles.setRole(role);
-        userRolesFacade.create(userRoles);
-        
-        role.setRoleName("USER");
-        roleFacade.create(role);
-        userRoles.setRole(role);
-        userRolesFacade.create(userRoles);
-        
-        
-        
-        
-        
-    }
+  @Override
+  public void init() throws ServletException {
+    List<User> listUsers = userFacade.findAll();
+    if(!listUsers.isEmpty()) return;
+    Reader reader = new Reader("Juri", "Melnikov", "juri.melnikov@ivkhk.ee");
+    readerFacade.create(reader);
+    EncryptPass ep = new EncryptPass();
+    String password = "123123";
+    String salts = ep.getSalts();
+    password = ep.getEncryptPass(password, salts);
+    User user = new User("admin", password, salts, reader);
+    userFacade.create(user);
+    UserRoles userRoles = new UserRoles();
+    userRoles.setUser(user);
+    Role role = new Role();
+    role.setRoleName("ADMIN");
+    roleFacade.create(role);
+    userRoles.setRole(role);
+    userRolesFacade.create(userRoles);
+    role.setRoleName("MANAGER");
+    roleFacade.create(role);
+    userRoles.setRole(role);
+    userRolesFacade.create(userRoles);
+    role.setRoleName("USER");
+    roleFacade.create(role);
+    userRoles.setRole(role);
+    userRolesFacade.create(userRoles);
     
+  }
   
-    
-    
+
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -105,125 +95,124 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        //защита рессурсов
-        
+        //Защита ресурсов
         HttpSession session = request.getSession(false);
-        if(session == null) {
-             request.setAttribute("info", "у вас нет прав, войдите");
-                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+        if(session == null){
+            request.setAttribute("info", "У вас нет прав, войдите");
+            request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
-                    return;
+            return;    
         }
         User user = (User) session.getAttribute("user");
         if(user == null){
-             request.setAttribute("info", "у вас нет прав, войдите");
-                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+            request.setAttribute("info", "У вас нет прав, войдите");
+            request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
-                    return;
+            return;   
         }
-        if(!"admin".equals(user.getLogin())){
-             request.setAttribute("info", "у вас нет прав, войдите");
-                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+        boolean isRole = userRolesFacade.isRole("ADMIN",user);
+        if(!isRole){
+            request.setAttribute("info", "У вас нет прав, войдите");
+            request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
                         .forward(request, response);
-                    return;
+            return;   
         }
         String path = request.getServletPath();
         switch (path) {
-            case "/newBook":
-                 request.getRequestDispatcher("/WEB-INF/newBook.jsp")
-                        .forward(request, response);
-                 break;
-            case "/addBook":
-                String title = request.getParameter("title");
-                String author = request.getParameter("author");
-                String year = request.getParameter("year");
-                String quentity = request.getParameter("quentity");
-                Book book = new Book (title, author, Integer.parseInt(year), Integer.parseInt(quentity));
-                bookFacade.create(book);
-                request.setAttribute("info", "Книга создана");
-                request.getRequestDispatcher("/index.jsp")
-                        .forward(request, response);
-                break;
-           
-            case "/listReaders":
+            case "/listReaders":    
                 List<Reader> listReaders = readerFacade.findAll();
                 request.setAttribute("listReaders", listReaders);
-                request.getRequestDispatcher("/WEB-INF/listReaders.jsp")
+                request.getRequestDispatcher("/listReaders.jsp")
                         .forward(request, response);
                 break;
-                
+            case "/showUserManager":
+                List<User> listUsers = userFacade.findAll();
+                List<Role> listRoles = roleFacade.findAll();
+                request.setAttribute("listUsers", listUsers);
+                request.setAttribute("listRoles", listRoles);
+                request.getRequestDispatcher("/WEB-INF/showUserManager.jsp")
+                        .forward(request, response);
+                break;
+            case "/changeRole":
+                String userId = request.getParameter("userId");
+                String roleId = request.getParameter("roleId");
+                User userChangeRole = userFacade.find(Long.parseLong(userId));
+                Role newRole = roleFacade.find(Long.parseLong(roleId));
+                List<UserRoles> listUserRoles = userRolesFacade.findByUser(userChangeRole);
+                for(UserRoles ur : listUserRoles){
+                    userRolesFacade.remove(ur);
+                }
+                UserRoles userRoles = new UserRoles();
+                userRoles.setUser(userChangeRole);
+                Role role = null;
+                if("ADMIN".equals(newRole.getRoleName())){
+                    role = roleFacade.findByRoleName("ADMIN");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                    role = roleFacade.findByRoleName("MANAGER");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                    role = roleFacade.findByRoleName("USER");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                }else if("MANAGER".equals(newRole.getRoleName())){
+                    role = roleFacade.findByRoleName("MANAGER");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                    role = roleFacade.findByRoleName("USER");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                }else if("USER".equals(newRole.getRoleName())){
+                    role = roleFacade.findByRoleName("USER");
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
+                }
+                request.getRequestDispatcher("/showUserManager")
+                        .forward(request, response);
+                break;
+            
         }
+        
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
-
      * Handles the HTTP <code>GET</code> method.
-
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-
      */
-
     @Override
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
-
-
     /**
-
      * Handles the HTTP <code>POST</code> method.
-
      *
-
      * @param request servlet request
-
      * @param response servlet response
-
      * @throws ServletException if a servlet-specific error occurs
-
      * @throws IOException if an I/O error occurs
-
      */
-
     @Override
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
-
         processRequest(request, response);
-
     }
 
-
-
     /**
-
      * Returns a short description of the servlet.
-
      *
-
      * @return a String containing servlet description
-
      */
-
     @Override
-
     public String getServletInfo() {
-
         return "Short description";
-
     }// </editor-fold>
-
-
 
 }
 

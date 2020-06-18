@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
-    Created on : 04.11.2019, 18:03:32
-    Author     : lenovo
+    Created on : Nov 4, 2019, 6:03:24 PM
+    Author     : user
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,24 +9,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Библеотека SKTVp18WebLibrary</title>
+        <title>Библиотека группы SKTVp18</title>
     </head>
     <body>
-        <h1>Добро пожаловать в библиотеку SKTVp18WebLibrary </h1>
-        <p>${info}<br>
+        <H1>Добро пожаловать в SKTVp18WebLibrary!</H1>
+        <p>${info}</p>
         <a href="showLogin">Вход</a><br>
         <a href="logout">Выход</a><br>
-        <br>
-        доступно пользователю<br>
+        <a href="newBook">Создать книгу</a><br>
         <a href="listBooks">Список книг</a><br>
         <a href="newReader">Создать читателя</a><br>
-        <br>
-        доступно админу<br>
-        <a href="showTakeOnBook">Выдать книгу читателю</a><br>
-        <a href="showReturnBook">Вернуть книгу читателю</a><br>
-        <a href="newBook">Создать книгу</a><br>
         <a href="listReaders">Список читателей</a><br>
-        
+        <a href="showTakeOnBook">Выдать книгу</a><br>
+        <a href="showReturnBook">Вернуть книгу</a><br>
+        <a href="showUserManager">Управление ролями</a><br>
         
     </body>
 </html>

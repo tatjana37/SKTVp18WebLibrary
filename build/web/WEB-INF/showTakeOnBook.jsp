@@ -1,22 +1,23 @@
 <%-- 
     Document   : showTakeOnBook
-    Created on : 04.12.2019, 18:35:53
-    Author     : lenovo
+    Created on : Nov 25, 2019, 7:05:49 PM
+    Author     : user
 --%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Выдача книг читателю</title>
+        <title>Выдать книгу читателю</title>
     </head>
     <body>
+        <h1>Выдать книгу</h1>
         <p>${info}</p>
-        <a href="index.jsp">Главна страница</a><br>
-        <br>
+         <a href="index.jsp">Главная страница</a><br>
         <form action="takeOnBook" method="POST">
-            <h1>Список книг</h1>
+            <h2>Список книг:</h2>
             <select name="bookId">
                 <c:forEach var="book" items="${listBooks}" varStatus="status">
                     <option value="${book.id}">
@@ -25,7 +26,7 @@
                 </c:forEach>
             </select>
 
-            <h2>Список читателей</h2> 
+            <h2>Список читателей:</h2> 
             <select name="readerId">
                 <c:forEach var="reader" items="${listReaders}" varStatus="status">
                     <option value="${reader.id}">
@@ -33,8 +34,8 @@
                     </option>
                 </c:forEach>
             </select>
+            <br>
             <input type="submit" value="Выдать книгу">
         </form>  
-               
     </body>
 </html>

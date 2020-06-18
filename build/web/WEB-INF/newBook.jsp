@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newbook
-    Created on : 18.11.2019, 19:21:04
-    Author     : lenovo
+    Document   : newBook
+    Created on : Nov 18, 2019, 7:21:01 PM
+    Author     : user
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,19 +13,12 @@
     </head>
     <body>
         <h1>Создать книгу</h1>
-        <a href="index.jsp">Главна страница</a><br>
-        <br>
         <form action="addBook" method="POST">
-            Название книги:<br>
-            <input type="text" size="40" name="title"><br>
-            Автор книги:<br>
-            <input type="text" size="40"  name="author"><br>
-            Год издания книги:<br>
-            <input type="text" size="40" name="year"><br>
-            колличество:<br>
-            <input type="text" size="40" name="quentity"><br>
-            <br>
-            <input type="submit" value="Добавить книгу"><br>
+            Название книги: <input type="text" name="title"><br>
+            Автор книги: <input type="text" name="author"><br>
+            Год издания книги: <input type="text" name="year"><br>
+            Количество экземпляров: <input type="text" name="quantity"><br>
+            <input type="submit" value="Создать книгу"><br>
         </form>
     </body>
 </html>

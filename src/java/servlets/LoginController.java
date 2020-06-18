@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,9 +7,10 @@ package servlets;
 
 import entity.Book;
 import entity.Reader;
+import entity.Role;
 import entity.User;
+import entity.UserRoles;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -21,28 +21,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.BookFacade;
 import session.ReaderFacade;
+import session.RoleFacade;
 import session.UserFacade;
-import static sun.security.jgss.GSSUtil.login;
+import session.UserRolesFacade;
 import utils.EncryptPass;
 
 /**
  *
- * @author lenovo
+ * @author user
  */
-@WebServlet(name = "LoginController", urlPatterns = 
-    {
+@WebServlet(name = "LoginController", urlPatterns = {
     "/showLogin",
     "/login",
     "/logout",
     "/newReader",
     "/addReader",
     "/listBooks",
-    })
+})
 public class LoginController extends HttpServlet {
-    @EJB BookFacade bookFacade;
-    @EJB ReaderFacade readerFacade;
-    @EJB UserFacade userFacade;
-
+@EJB ReaderFacade readerFacade;
+@EJB UserFacade userFacade;
+@EJB BookFacade bookFacade;
+@EJB RoleFacade roleFacade;
+@EJB UserRolesFacade userRolesFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,7 +56,7 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        request.setCharacterEncoding("UTF-8");
         String path = request.getServletPath();
         switch (path) {
             case "/showLogin":
@@ -81,11 +82,10 @@ public class LoginController extends HttpServlet {
                 EncryptPass encryptPass = new EncryptPass();
                 password = encryptPass.getEncryptPass(password, user.getSalts());
                 if(!password.equals(user.getPassword())){
-                    request.setAttribute("info", "Неправильный логин или пароль!");
-                    request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
-                            .forward(request, response);
-                    break;
-                } else {
+                   request.setAttribute("info", "Неправильный логин или пароль!");
+                   request.getRequestDispatcher("/WEB-INF/showLogin.jsp")
+                        .forward(request, response);
+                   break; 
                 }
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);
@@ -93,12 +93,19 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
-                
-                case "/newReader":
+            case "/logout":
+                session = request.getSession(false);
+                if(session != null){
+                    session.invalidate();
+                }
+                request.setAttribute("info", "Вы вышли");
+                request.getRequestDispatcher("/index.jsp")
+                        .forward(request, response);
+                break;
+            case "/newReader":
                 request.getRequestDispatcher("/WEB-INF/newReader.jsp")
                         .forward(request, response);
                 break;
-                
             case "/addReader":
                 String name = request.getParameter("name");
                 String lastname = request.getParameter("lastname");
@@ -125,6 +132,11 @@ public class LoginController extends HttpServlet {
                     password = encryptPass.getEncryptPass(password,salts);
                     user = new User(login, password, salts, reader);
                     userFacade.create(user);
+                    Role role = roleFacade.findByRoleName("USER");
+                    UserRoles userRoles = new UserRoles();
+                    userRoles.setUser(user);
+                    userRoles.setRole(role);
+                    userRolesFacade.create(userRoles);
                 } catch (Exception e) {
                     if(reader != null){
                         readerFacade.remove(reader);
@@ -141,24 +153,12 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp")
                         .forward(request, response);
                 break;
-            case "/logout" :
-                session = request.getSession(false);
-                if(session != null) {
-                    session.invalidate();
-                }
-                request.setAttribute("info", "вы вышли");
-                request.getRequestDispatcher("/index.jsp")
-                    .forward(request, response);
-                break;
             case "/listBooks":
                 List<Book> listBooks = bookFacade.findAll();
                 request.setAttribute("listBooks", listBooks);
-                request.getRequestDispatcher("/WEB-INF/listBooks.jsp")
+                request.getRequestDispatcher("/listBooks.jsp")
                         .forward(request, response);
                 break;
-                         
-         
-
         }
     }
 

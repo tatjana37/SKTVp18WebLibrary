@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author lenovo
+ * @author user
  */
 @Stateless
 public class UserFacade extends AbstractFacade<User> {
@@ -34,11 +34,9 @@ public class UserFacade extends AbstractFacade<User> {
             return (User) em.createQuery("SELECT u FROM User u WHERE u.login = :login")
                     .setParameter("login", login)
                     .getSingleResult();
-            
         } catch (Exception e) {
             return null;
-      }
-    
-}
+        }
+    }
     
 }

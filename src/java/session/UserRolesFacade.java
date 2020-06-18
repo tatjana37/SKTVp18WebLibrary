@@ -5,28 +5,53 @@
  */
 package session;
 
+import entity.User;
 import entity.UserRoles;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author lenovo
+ * @author jvm
  */
 @Stateless
 public class UserRolesFacade extends AbstractFacade<UserRoles> {
 
-    @PersistenceContext(unitName = "SKTVp18WebLibraryPU")
-    private EntityManager em;
+  @PersistenceContext(unitName = "SKTVp18WebLibraryPU")
+  private EntityManager em;
 
-    @Override
-    protected EntityManager getEntityManager() {
-        return em;
-    }
+  @Override
+  protected EntityManager getEntityManager() {
+    return em;
+  }
 
-    public UserRolesFacade() {
-        super(UserRoles.class);
+  public UserRolesFacade() {
+    super(UserRoles.class);
+  }
+
+  public boolean isRole(String roleName, User user) {
+    List<UserRoles> listUserRoles = em.createQuery("SELECT ur FROM UserRoles ur WHERE ur.user=:user")
+            .setParameter("user", user)
+            .getResultList();
+    for(UserRoles userRole : listUserRoles){
+      if(roleName.equals(userRole.getRole().getRoleName())){
+        return true;
+      }
     }
+    return false;
     
+  }
+
+    public List<UserRoles> findByUser(User userChangeRole) {
+        try {
+            return em.createQuery("SELECT ur FROM UserRoles ur WHERE ur.user = :user")
+                    .setParameter("user", userChangeRole)
+                    .getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+  
 }

@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author lenovo
+ * @author user
  */
 @Stateless
 public class HistoryFacade extends AbstractFacade<History> {
@@ -36,7 +36,6 @@ public class HistoryFacade extends AbstractFacade<History> {
                     .getResultList();
         } catch (Exception e) {
             return null;
-            
         }
     }
     

@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newReader
-    Created on : 18.11.2019, 22:34:20
-    Author     : lenovo
+    Document   : newBook
+    Created on : Nov 18, 2019, 7:21:01 PM
+    Author     : user
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,23 +12,14 @@
         <title>Новый читатель</title>
     </head>
     <body>
-        <h1>Создать читателя</h1>
-        <a href="index.jsp">Главна страница</a><br>
-        <br>
+        <h1>Регистрация</h1>
         <form action="addReader" method="POST">
-            Имя:<br>
-            <input type="text" size="40" name="name"><br>
-            Фамилия:<br>
-            <input type="text" size="40"  name="lastname"><br>
-            электронная почта:<br>
-            <input type="text" size="40" name="email"><br>
-            <br>
-            Логин: <input type="text" size="40" name="login"><br>
-            <br>
-            Пароль: <input type="password" size="40" name="password"><br>
-            <br>
+            Имя: <input type="text" name="name"><br>
+            фамилия: <input type="text" name="lastname"><br>
+            email: <input type="text" name="email"><br>
+            Логин: <input type="text" name="login"><br>
+            Пароль: <input type="password" name="password"><br>
             <input type="submit" value="Создать пользователя"><br>
-            
         </form>
     </body>
 </html>

@@ -14,9 +14,9 @@ import javax.persistence.Id;
 
 /**
  *
- * @author lenovo
- */ 
- @Entity
+ * @author user
+ */
+@Entity
 public class User implements Serializable {
 
     @Id

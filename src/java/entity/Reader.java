@@ -15,10 +15,10 @@ import javax.persistence.Id;
 
 /**
  *
- * @author User
+ * @author user
  */
 @Entity
-public class Reader implements Serializable {
+public class Reader implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class Reader implements Serializable {
     private String lastname;
     @Column(unique = true)
     private String email;
-    
+
     public Reader() {
     }
 
@@ -35,25 +35,32 @@ public class Reader implements Serializable {
         this.lastname = lastname;
         this.email = email;
     }
-
-   public String getName() {
+    
+    
+    public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getLastname() {
         return lastname;
     }
+
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     @Override
     public String toString() {
         return "Reader{" + "name=" + name + ", lastname=" + lastname + ", email=" + email + '}';
@@ -69,11 +76,11 @@ public class Reader implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        hash = 43 * hash + Objects.hashCode(this.name);
-        hash = 43 * hash + Objects.hashCode(this.lastname);
-        hash = 43 * hash + Objects.hashCode(this.email);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.lastname);
+        hash = 37 * hash + Objects.hashCode(this.email);
         return hash;
     }
 
@@ -103,6 +110,5 @@ public class Reader implements Serializable {
         }
         return true;
     }
-        
-
+    
 }

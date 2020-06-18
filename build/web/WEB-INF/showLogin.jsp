@@ -1,7 +1,7 @@
 <%-- 
     Document   : page1
-    Created on : 04.11.2019, 18:03:11
-    Author     : lenovo
+    Created on : Nov 4, 2019, 5:59:40 PM
+    Author     : user
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +12,7 @@
         <title>Вход в систему</title>
     </head>
     <body>
-        <h1>Введите логин и пароль</h1>
+        <H1>Введите логин и поароль</H1>
         ${info}
         <form action="login" method="POST">
             Login: <input type="text" name="login"><br>
